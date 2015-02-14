@@ -1,0 +1,135 @@
+<!--Program: Timer with recording feature
+Author: Ruby Shrestha
+Date: 14th Feb 2015 -->
+
+<html>
+<head>
+<title>Timer</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<div id="time">
+	<h1 id="min" class="digits">00</h1> 
+	<p class="digits"> <em>   :  </em> </p>
+	<h1 id="sec" class="digits">00</h1> 
+	<p class="digits">  <em>  :   </em>  </p>
+	<h1 id="mils" class="digits">00</h1>
+</div>
+
+<div id="button">
+<input type="button" value='Start' id="btnStart" onclick="functionality('start')">
+<input type="button" value='Reset' id="btnReset" onclick="functionality('reset')" disabled>
+<input type="button" value='Stop' id="btnStop" onclick="functionality('stop')" disabled>
+<input type="button" value='Record' id="btnRecord" onclick="recordTime()" disabled>
+<input type="button" value="Display" id="btnDisplay" onclick="displayRecord()">
+</div>
+
+<script>
+
+var millis=0;
+var second=0;
+var min=0;
+
+var elem_ms=document.getElementById("mils");
+var elem_s=document.getElementById("sec");
+var elem_min=document.getElementById("min");
+var newWindow;
+var timeout;
+var recDescription;
+var recNum=0;
+var clickCount=0;
+var arrRecord=[];
+
+function recordTime(){
+		document.getElementById('btnRecord').disabled=true;
+		clickCount++;
+		recDescription=prompt("Description of time frame:");
+		
+		arrRecord[recNum]=new Array(2);
+		
+		arrRecord[recNum][0]=elem_min.innerHTML + " : " + elem_s.innerHTML + " : " + elem_ms.innerHTML;
+		arrRecord[recNum][1]=recDescription;
+				
+		recNum++;
+		alert("Recorded!");
+}
+
+function displayRecord(){
+	var elem=document.getElementById("records");
+	if (clickCount==0)
+		alert("Sorry! No records to display!");
+	else
+	{
+		newWindow=window.open();
+		newWindow.document.write('<html><head><title>Records</title><link rel="stylesheet" type="text/css" href="style.css"></head><body><h2><em>Records:</em></h2>');
+		newWindow.document.write('<table>');
+		newWindow.document.write('<tr><th>Time</th><th>Description</th></tr>');
+		for (var i=0; i<=recNum; i++)
+		{
+			newWindow.document.write('<tr>');
+			newWindow.document.write('<td>' + arrRecord[i][0] + '</td><td>' + arrRecord[i][1]+ '</td>');
+			newWindow.document.write('</tr>');
+		}
+		newWindow.document.write('</table></body></html>');
+	}
+}
+
+
+function functionality(task){
+	if (task=='start'){
+		document.getElementById('btnStart').disabled=true;
+		document.getElementById('btnStop').disabled=false;
+		document.getElementById('btnReset').disabled=true;
+		document.getElementById('btnRecord').disabled=true;
+		millis++; 
+		if (millis==200)
+		{
+			millis=0;
+			second++;
+			if (second==60)
+			{
+				second=0;
+				min++;
+				showVal(min, elem_min);
+			}
+			showVal(second, elem_s);
+		}
+		elem_ms.innerHTML=millis;
+		timeout=window.setTimeout("functionality('start')", 1);
+	}
+	else if (task=='reset')
+	{
+		document.getElementById('btnStart').disabled=false;
+		elem_ms.innerHTML='00';
+		elem_s.innerHTML='00';
+		elem_min.innerHTML='00';
+		millis=0;
+		second=0;
+		min=0;
+		return;
+	}
+	else
+	{
+		clearTimeout(timeout);
+		document.getElementById('btnStop').disabled=true;
+		document.getElementById('btnStart').disabled=false;
+		document.getElementById("btnReset").disabled=false;
+		document.getElementById("btnRecord").disabled=false;
+	}
+}
+
+function showVal(value, elem)
+{
+	if (value<10)
+		elem.innerHTML='0'+ value;
+	else
+		elem.innerHTML=value;
+
+	return;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+.digits{
+display: inline-block;
+font-family: digital;
+}
+
+#time{
+	font-family: cambria;
+	font-size: 15px;
+	font-style: bold;
+	border-style: outset;
+	margin: 50px 500px 50px 500px;
+	padding: 20px 105px 20px 105px;
+}
+
+#button{
+	margin: 50px 525px 50px 528px;
+}
+
+
+table, th, td{
+	border-style: outset;
+	display: center;
+	padding: 20px 20px 20px 20px;
+	
+}
+input[type=button] {
+    font: cambria;
+    font-size:14px;
+}
+
+input[type=button]:hover {
+    background-color:#08088A;
+	font-size: 16px;
+	color: #F2F2F2;
+}
+ 
